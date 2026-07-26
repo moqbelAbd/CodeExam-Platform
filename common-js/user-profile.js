@@ -16,7 +16,7 @@ export function loadProfile() {
     const users = getUsers();
     
     // Find the currently logged-in user's complete data
-    const currentUser = users.find(u => u.nationalId === auth.userId);
+    const currentUser = users.find(u => u.nationalId === auth?.userId);
     if (!currentUser) return;
 
    // Inject the Modal HTML matching the design system
