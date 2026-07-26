@@ -2,6 +2,7 @@ import { QuestionType } from "./models/questionType.js";
 
 const USERS_KEY = 'users';
 const EXAMS_KEY = 'exams';
+const EXAMS_ATTEMPTS_KEY = 'examAttempts';
 const QUESTIONS_KEY = 'questions';
 
 /**
@@ -102,3 +103,9 @@ export function getActiveExams() {
 export function saveExam(exam) {
     localStorage.setItem(EXAMS_KEY, JSON.stringify(exam));
 }
+
+// --- Attempts Storage Methods ---
+export function getAttempts() {
+    return JSON.parse(localStorage.getItem(EXAMS_ATTEMPTS_KEY)) || [];
+}
+
