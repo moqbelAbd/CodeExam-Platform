@@ -61,7 +61,7 @@ export function loadHeader() {
     if (isSignedIn) {
         
         if(role == UserRole.TEACHER) dashboardLink = `<a href="${pages.teacherDashboard}">Dashboard</a>`;
-        else dashboardLink = `<a href="${pages.teacherDashboard}">Dashboard</a>`;
+        else dashboardLink = `<a href="${pages.studentDashboard}">Dashboard</a>`;
 
         profileLink = `<a href="#" id="profile-btn">Profile</a>`;
         authButton = `
@@ -70,30 +70,87 @@ export function loadHeader() {
             </button>
         `;
     } else {
-        authButton = `<a href="${pages.login}" class="btn-signup">Sign In</a>`;
-    }
+        if (!path.includes("signIn.html")) {
+            authButton = `<a href="${pages.login}" class="btn btn-primary btn-signup ms-lg-3">Sign In</a>`;
+        } else {
+            authButton = ""; // Leave it empty on the login page
+        }
+        }
 
-    header.innerHTML = `
-        <div class="header-content">
-            <a href="${pages.home}" class="logo">
-                <img src="/assets/codeExam Logo.png" height="36" width="36" alt="Logo">
-                <span>CodeExam</span>
-            </a>
-            <nav>
-                <a href="${pages.home}">Home</a>
-                <a href="${pages.home}#about-section">About</a>
-                <a href="${pages.home}#contact-section">Contact</a>
-                ${dashboardLink}
-                ${profileLink}
-            </nav>
-            <div class="auth-buttons">
-            <button id="theme-toggle-btn" style="background: none; border: none; cursor: pointer; color: var(--text-primary); font-size: 1.25rem;">
-                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+header.innerHTML = `
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a href="${pages.home}" class="navbar-brand logo d-flex align-items-center gap-2">
+                    <img src="/assets/codeExam Logo.png" height="36" width="36" alt="Logo">
+                    <span>CodeExam</span>
+                </a>
+
+                <!-- Burger Menu Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                ${authButton}
+
+                <!-- Collapsible Content -->
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <!-- Added align-items-center and text-center for mobile layout -->
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center text-center w-100 justify-content-end">
+                        <li class="nav-item w-100"><a class="nav-link" href="${pages.home}">Home</a></li>
+                        <li class="nav-item w-100"><a class="nav-link" href="${pages.home}#about-section">About</a></li>
+                        <li class="nav-item w-100"><a class="nav-link" href="${pages.home}#contact-section">Contact</a></li>
+                        ${dashboardLink}
+                        ${profileLink}
+                        
+                        <!-- Auth & Theme Buttons (Added justify-content-center) -->
+                        <li class="nav-item d-flex justify-content-center align-items-center gap-3 mt-3 mt-lg-0 w-100">
+                            <button id="theme-toggle-btn" class="nav-link" style="background: none; border: none; cursor: pointer;">
+                                <i id="theme-icon" class="fa-solid fa-moon"></i>
+                            </button>
+                            ${authButton}
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </nav>
     `;
+
+
+    // --- Burger Menu Closing Logic ---
+    const navbarContent = document.getElementById("navbarContent");
+    const navbarToggler = document.querySelector(".navbar-toggler");
+
+    if (navbarContent && navbarToggler) {
+        // Helper function to safely close the menu
+        const closeBurgerMenu = () => {
+            if (navbarContent.classList.contains("show")) {
+                // If Bootstrap 5 JS is globally available, use its API
+                if (typeof bootstrap !== "undefined") {
+                    const bsCollapse = bootstrap.Collapse.getInstance(navbarContent) || new bootstrap.Collapse(navbarContent, { toggle: false });
+                    bsCollapse.hide();
+                } else {
+                    // Fallback for Vanilla JS: Trigger a click on the toggler
+                    navbarToggler.click();
+                }
+            }
+        };
+
+        // 1. Close menu when clicking any navigation link
+        const navLinks = navbarContent.querySelectorAll(".nav-link, .btn");
+        navLinks.forEach(link => {
+            link.addEventListener("click", closeBurgerMenu);
+        });
+
+        // 2. Close menu when clicking outside the boundary
+        document.addEventListener("click", (event) => {
+            const isClickInsideMenu = navbarContent.contains(event.target);
+            const isClickOnToggler = navbarToggler.contains(event.target);
+
+            // If the click is outside both the menu and the button, and the menu is open, close it
+            if (!isClickInsideMenu && !isClickOnToggler) {
+                closeBurgerMenu();
+            }
+        });
+    }
 
     const profileBtn = document.getElementById("profile-btn");
     if (profileBtn) {
