@@ -86,12 +86,12 @@ const getStudentRow = (user) => `
 
 // --- Search & Filter Logic ---
 searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase();
+    const query = searchInput.value.toLowerCase().trim();
 
     if (activeTab === 0) {
         const exams = JSON.parse(localStorage.getItem("exams")) || [];
         examsTable.querySelector("tbody").innerHTML = exams
-            .filter(exam => exam.title.toLowerCase().startsWith(query))
+            .filter(exam => exam.title.toLowerCase().trim().startsWith(query))
             .map(getExamRow).join("");
     } else {
 users = JSON.parse(localStorage.getItem("users")) || [];

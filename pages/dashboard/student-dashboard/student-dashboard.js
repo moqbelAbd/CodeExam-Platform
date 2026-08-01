@@ -69,9 +69,9 @@ searchInput.addEventListener("input",function() {
         tbody.textContent = "";
         
 
-        const value = searchInput.value.toLowerCase();
+        const value = searchInput.value.toLowerCase().trim();
         exams.forEach(exam => {
-            if (exam.title.toLowerCase().startsWith(value) && attempts?.find(attempt => attempt?.examId === exam.examId) === undefined && exam.status != ExamStatus.INACTIVE) {
+            if (exam.title.toLowerCase().trim().startsWith(value) && attempts?.find(attempt => attempt?.examId === exam.examId) === undefined && exam.status != ExamStatus.INACTIVE) {
                     let totalGrade = 0;
                     exam.questions.forEach(question => totalGrade += question.mark);
                     addDataToTable(tbody,[exam.title,exam.questions.length,totalGrade,exam.examId]);
