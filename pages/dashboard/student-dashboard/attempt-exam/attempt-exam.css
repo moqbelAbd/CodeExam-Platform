@@ -10,9 +10,16 @@ body {
 
 #attempt-exam-container {
     max-width: 90%;
-    margin-top: var(--spacing-2xl);
-    margin-bottom: var(--spacing-3xl);
-}
+margin-top: var(--spacing-2xl);
+    
+    /* REMOVE margin-bottom */
+    /* margin-bottom: var(--spacing-3xl); */
+    
+    /* ADD padding-bottom instead to force scrollable space */
+    padding-bottom: 100px; 
+    
+    /* Optional: Adds safe space for iPhones with home indicator bars */
+    margin-bottom: env(safe-area-inset-bottom);}
 
 .attempt-exam-header {
     background-color: var(--card-background);
@@ -226,4 +233,10 @@ body {
     40%, 80% { transform: translateX(10px); }
 }
 
+@media (max-width: 768px) {
+    
+    .attempt-exam-actions button {
+            margin-bottom : 100px;
+    }
+}
 

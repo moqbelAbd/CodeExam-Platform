@@ -192,6 +192,7 @@ td .attempt_btn .fa-chevron-right {
 
 td .attempt_btn:hover {
     background-color: var(--primary-hover);
+    color:var(--white)
 }
 
 .result-status {

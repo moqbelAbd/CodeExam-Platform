@@ -185,6 +185,39 @@ main .add-btn svg{
 
 /* TABLE */
 
+/* 1. Create a safe scrollable container for mobile */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Allows horizontal scroll if columns are wide */
+    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    margin-bottom: 2rem;
+}
+
+/* 2. Force the browser to calculate table height properly */
+.table-container table {
+    display: table !important; 
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container thead {
+    display: table-header-group !important;
+}
+
+.table-container tbody {
+    display: table-row-group !important;
+}
+
+.table-container tr {
+    display: table-row !important;
+}
+
+/* 3. Reset main to normal safe spacing */
+main {
+    /* 100px ensures it clears the mobile bottom toolbar without forcing a massive gap */
+    padding: 2rem 1.5rem 100px;
+    margin-inline: auto;
+}
 
 .inactive-table{
     display: none;
@@ -264,6 +297,13 @@ td .delete_btn svg path {
 }
 
 
+@media (max-width : 768px ) {
+    
+main{
+    padding: 2rem 1.5rem 400px;
+}
+
+}
 
 /* -----------------------------------
    Dashboard: Dark Mode Styles

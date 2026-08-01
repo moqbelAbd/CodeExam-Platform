@@ -100,8 +100,7 @@ function createExamRow(exam) {
       <td>${totalGrade}</td>
       <td><span class="exam-status ${rawStatus}">${rawStatus}</span></td>
       <td>
-        <button class="exam-set_status btn" 
-                style="background-color:var(--card-background); color:var(--text-primary);" 
+        <button class="exam-set_status btn secondary-btn" 
                 data-action="toggle-status" 
                 data-id="${exam.title}">
           ${buttonLabel}

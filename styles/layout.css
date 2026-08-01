@@ -73,6 +73,7 @@ section{
 
 .primary-btn:hover {
     background-color: var(--primary-hover);
+    color:var(--white)
 }
 
 .secondary-btn {
@@ -85,3 +86,10 @@ section{
     background-color: var(--border);
 }
 
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 20px;
+    }
+    
+}
