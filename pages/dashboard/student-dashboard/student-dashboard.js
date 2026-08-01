@@ -1,162 +1,215 @@
-import { ExamStatus } from "../../../common-js/models/examStatus.js";
+import { ExamStatus } from "/common-js/models/examStatus.js";
+import { getUsers, getExams, getAttempts } from "/common-js/storage.js";
 
-// Read from storage
+// STATE MANAGEMENT 
+let activeTab = 0; // 0 = Available Exams, 1 = History
 
-const users = JSON.parse(localStorage.getItem("users")) || [];
+// DOM ELEMENTS 
+const elements = {
+  studentName: document.querySelector(".student_name"),
+  cardsContainer: document.querySelector(".cards-container"),
+  tabs: document.querySelector(".tabs"),
+  firstTable: document.querySelector(".available-table"),
+  secondTable: document.querySelector(".history-table"),
+  searchInput: document.querySelector(".searchbox > input"),
+};
 
-const currentCred = JSON.parse(sessionStorage.getItem("auth"));
-
-const currentUser = users.find(user => user.nationalId === currentCred.userId);
-
-// examAttempts
-
-// welcome user by his name 
-
-document.querySelector(".student_name").textContent = currentUser.fullName ?? "user";
-
-
-
-
-// Tabs & Tables switch
-
-const tabs = document.querySelector(".tabs");
-
-const firstTable = document.querySelector(".available-table");
-const secondTable = document.querySelector(".history-table");
-
-let activeTab = 0; //  0 firstTable  1 secondTable
-
-tabs.addEventListener("click",function(event) {
-    const target = event.target;
-
-    if (target.classList.contains('inactive-tab')) {
-        target.classList.replace('inactive-tab', 'active-tab');
-
-        activeTab = (activeTab + 1) % 2;
-        let nextTab;
-
-        if (activeTab === 0 ) nextTab = target.nextElementSibling;
-        
-        else nextTab = target.previousElementSibling;
-
-        nextTab.classList.replace('active-tab','inactive-tab');
-
-        firstTable.classList.toggle('inactive-table');
-        secondTable.classList.toggle('inactive-table');
-
-        searchInput.value = "";
-        const event = new Event('input');
-        searchInput.dispatchEvent(event);
-    } 
-});
+// CORE DATA INITIALIZATION 
+const currentUser = getCurrentUser();
+if (!currentUser) console.error("No authenticated user found.");
 
 
-// search
+// redirection 
+window.redirectToAttemptExamPage = examId => 
+  window.location.href = `./attempt-exam/attempt-exam.html?examId=${examId}`;
 
-const searchInput = document.querySelector(".searchbox > input");
+window.redirectToReviewExamPage = (attemptId) =>
+  (attemptId && attemptId !== "null") ? 
+    window.location.href = `./exam-review/exam-review.html?attemptId=${attemptId}`
+    : 
+    console.error("Cannot redirect: attemptId is null or invalid.");
 
+// HELPER FUNCTIONS 
 
-
-searchInput.addEventListener("input",function() {
-    const exams = JSON.parse(localStorage.getItem("exams")) || [];
-    const examAttempts = JSON.parse(localStorage.getItem("examAttempts")) || {};
-
-    const attempts = examAttempts.filter(attempt => attempt.userId === currentUser.nationalId);
-    
-
-     if (activeTab === 0) {
-        const tbody = firstTable.querySelector("tbody");
-        tbody.textContent = "";
-        
-
-        const value = searchInput.value.toLowerCase().trim();
-        exams.forEach(exam => {
-            if (exam.title.toLowerCase().trim().startsWith(value) && attempts?.find(attempt => attempt?.examId === exam.examId) === undefined && exam.status != ExamStatus.INACTIVE) {
-                    let totalGrade = 0;
-                    exam.questions.forEach(question => totalGrade += question.mark);
-                    addDataToTable(tbody,[exam.title,exam.questions.length,totalGrade,exam.examId]);
-            }
-        });
-    }
-    
-    if (activeTab === 1) {
-        const tbody = secondTable.querySelector("tbody");
-        tbody.textContent = "";
-
-        const value = searchInput.value.toLowerCase();
-        attempts?.forEach(attempt => {
-            if (attempt.examTitle.toLowerCase().startsWith(value)) {
-                    let totalGrade = 0;
-                    attempt.questions.forEach(question => totalGrade += question.mark);
-                    addDataToTable(tbody,
-                        [attempt.examTitle,attempt.questions.length,totalGrade,
-                            attempt.grade,
-                            attempt?.success?"Success":"Fail",
-                            attempt?.attemptId]);
-            }
-        });
-    }
-})
-
-triggerSearchInput();
-
-
-function addDataToTable(element,dataArr) {
-
-    if (activeTab == 0) {
-        element.innerHTML +=
-                `<tr>
-                        <td class="title-data">${dataArr[0]}</td>
-                        <td>${dataArr[1]}</td>
-                        <td>${dataArr[2]}</td>
-                        <td>
-                            <button class="attempt_btn btn" onclick="redirectToAttemptExamPage('${dataArr[3]}')" >
-                                <i class="fa-solid fa-chevron-right"></i> Attempt
-                            </button>
-                        </td>
-                    </tr>`
-    }
-
-    else if (activeTab == 1) { 
-        element.innerHTML += 
-                `<tr>
-                        <td class="title-data">${dataArr[0]??"_"}</td>
-                        <td>${dataArr[1]??"_"}</td>
-                        <td>${dataArr[2]??"_"}</td>
-                        <td>${dataArr[3]??"_"}</td>
-                        <td><span class = "result-status ${dataArr[4] ==="Success"?"pass":"fail"}">${dataArr[4]??"_"}</span></td>
-                        <td>
-                            <button class="review-btn btn" onclick="redirectToReviewExamPage('${dataArr[5]??null}')">
-                                <svg viewBox="0 0 24 24" fill="none">
-                                    <g clip-path="url(#clip0_15_200)">
-                                    <circle cx="12" cy="13" r="2" stroke="currentColor" stroke-linejoin="round"/>
-                                    <path d="M12 7.5C7.69517 7.5 4.47617 11.0833 3.39473 12.4653C3.14595 12.7832 3.14595 13.2168 3.39473 13.5347C4.47617 14.9167 7.69517 18.5 12 18.5C16.3048 18.5 19.5238 14.9167 20.6053 13.5347C20.8541 13.2168 20.8541 12.7832 20.6053 12.4653C19.5238 11.0833 16.3048 7.5 12 7.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </g>
-                                    <defs>
-                                    <clipPath id="clip0_15_200">
-                                    <rect width="24" height="24" fill="white"/>
-                                    </clipPath>
-                                    </defs>
-                                </svg> Review
-                            </button>
-                        </td>
-                    </tr>`
-    }
+function getCurrentUser() {
+    const users = getUsers();
+    const currentCred = JSON.parse(sessionStorage.getItem("auth")) || {};
+    return users.find((user) => user.nationalId === currentCred.userId) || null;
 }
 
-window.redirectToAttemptExamPage = (examId) => {
-    window.location.href = `./attempt-exam/attempt-exam.html?examId=${examId}`;
+function getUserData() {
+  if (!currentUser) return { userAttempts: [], availableExams: [] };
+
+  const attempts = getAttempts();
+  const exams = getExams();
+
+  const userAttempts = attempts.filter((attempt) => attempt.userId === currentUser.nationalId);
+  
+  const userAttemptExamIds = new Set(userAttempts.map((attempt) => attempt.examId));
+  const availableExams = exams.filter(
+    (exam) => !userAttemptExamIds.has(exam.examId) && exam.status === ExamStatus.ACTIVE
+  );
+
+  return { userAttempts, availableExams };
 }
 
-window.redirectToReviewExamPage = (attemptId) => {
-    if (attemptId !== null)
-         window.location.href = `./exam-review/exam-review.html?attemptId=${attemptId}`;
-    else
-        console.log("attemptId is null");
+function calculateTotalGrade(questions = []) {
+  return questions.reduce((sum, q) => sum + (q.mark || 0), 0);
+}
+
+// UI RENDER FUNCTIONS 
+
+function renderDashboardHeader() {
+  if (elements.studentName)
+    elements.studentName.textContent = currentUser?.fullName ?? "User";
+  
+
+  const { userAttempts, availableExams } = getUserData();
+  const totalPassed = userAttempts.filter((attempt) => attempt.success).length;
+  const passRate = userAttempts.length > 0 ? Math.round((totalPassed / userAttempts.length) * 100) : 0;
+
+  if (elements.cardsContainer) {
+    elements.cardsContainer.querySelector(".available_exams").textContent = availableExams.length;
+    elements.cardsContainer.querySelector(".completed_exams").textContent = userAttempts.length;
+    elements.cardsContainer.querySelector(".exams_passed").textContent = totalPassed;
+    elements.cardsContainer.querySelector(".pass_rate").textContent = `${passRate}%`;
+  }
+}
+
+function createAvailableExamRow(exam) {
+  const totalGrade = calculateTotalGrade(exam.questions);
+  return `
+    <tr>
+      <td class="title-data">${exam.title ?? "_"}</td>
+      <td>${exam.questions?.length ?? 0}</td>
+      <td>${totalGrade}</td>
+      <td>
+        <button class="attempt_btn btn" data-action="attempt" data-id="${exam.examId}">
+          <i class="fa-solid fa-chevron-right"></i> Attempt
+        </button>
+      </td>
+    </tr>`;
+}
+
+function createHistoryRow(attempt) {
+  const totalGrade = calculateTotalGrade(attempt.questions);
+  const isSuccess = attempt?.success;
+  const statusText = isSuccess ? "Success" : "Fail";
+  const statusClass = isSuccess ? "pass" : "fail";
+
+  return `
+    <tr>
+      <td class="title-data">${attempt.examTitle ?? "_"}</td>
+      <td>${attempt.questions?.length ?? 0}</td>
+      <td>${totalGrade}</td>
+      <td>${attempt.grade ?? "_"}</td>
+      <td><span class="result-status ${statusClass}">${statusText}</span></td>
+      <td>
+        <button class="review-btn btn" data-action="review" data-id="${attempt.attemptId ?? ""}">
+          <svg viewBox="0 0 24 24" fill="none">
+            <g clip-path="url(#clip0_15_200)">
+              <circle cx="12" cy="13" r="2" stroke="currentColor" stroke-linejoin="round"/>
+              <path d="M12 7.5C7.69517 7.5 4.47617 11.0833 3.39473 12.4653C3.14595 12.7832 3.14595 13.2168 3.39473 13.5347C4.47617 14.9167 7.69517 18.5 12 18.5C16.3048 18.5 19.5238 14.9167 20.6053 13.5347C20.8541 13.2168 20.8541 12.7832 20.6053 12.4653C19.5238 11.0833 16.3048 7.5 12 7.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_15_200">
+                <rect width="24" height="24" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg> Review
+        </button>
+      </td>
+    </tr>`;
+}
+
+function renderTableData() {
+  const query = elements.searchInput?.value.trim().toLowerCase() || "";
+  const { userAttempts } = getUserData();
+
+  if (activeTab === 0) {
+    const tbody = elements.firstTable?.querySelector("tbody");
+    if (!tbody) return;
+
+    const exams = getExams() || [];
+    const userAttemptIds = new Set(userAttempts.map((a) => a.examId));
+
+    const filteredExams = exams.filter(
+      (exam) =>
+        exam.status !== ExamStatus.INACTIVE &&
+        !userAttemptIds.has(exam.examId) &&
+        exam.title.toLowerCase().startsWith(query)
+    );
+
+    tbody.innerHTML = filteredExams.map(createAvailableExamRow).join("");
+  } else {
+    const tbody = elements.secondTable?.querySelector("tbody");
+    if (!tbody) return;
+
+    const filteredAttempts = userAttempts.filter((attempt) =>
+      attempt.examTitle?.toLowerCase().startsWith(query)
+    );
+
+    tbody.innerHTML = filteredAttempts.map(createHistoryRow).join("");
+  }
 }
 
 function triggerSearchInput() {
-    searchInput.value = "";
-    const event = new Event('input');
-    searchInput.dispatchEvent(event);
+  if (!elements.searchInput) return;
+  elements.searchInput.value = "";
+  renderTableData();
 }
+
+// --- EVENT HANDLERS ---
+
+function handleTabSwitch(event) {
+  const target = event.target;
+  if (!target.classList.contains("inactive-tab")) return;
+
+  // Toggle active styling
+  const activeSibling = target.parentElement.querySelector(".active-tab");
+  if (activeSibling) {
+    activeSibling.classList.replace("active-tab", "inactive-tab");
+  }
+  target.classList.replace("inactive-tab", "active-tab");
+
+  // Update state and view
+  activeTab = activeTab === 0 ? 1 : 0;
+  elements.firstTable.classList.toggle("inactive-table", activeTab !== 0);
+  elements.secondTable.classList.toggle("inactive-table", activeTab !== 1);
+
+  triggerSearchInput();
+}
+
+function handleTableClick(event) {
+  const button = event.target.closest("button");
+  if (!button) return;
+
+  const action = button.dataset.action;
+  const id = button.dataset.id;
+
+  if (action === "attempt") {
+    window.redirectToAttemptExamPage(id);
+  } else if (action === "review") {
+    window.redirectToReviewExamPage(id);
+  }
+}
+
+// INITIALIZATION
+
+function init() {
+  renderDashboardHeader();
+
+  // Event Listeners
+  elements.tabs?.addEventListener("click", handleTabSwitch);
+  elements.searchInput?.addEventListener("input", renderTableData);
+
+  // Event Delegation for Table Action Buttons
+  elements.firstTable?.addEventListener("click", handleTableClick);
+  elements.secondTable?.addEventListener("click", handleTableClick);
+
+  // Initial table render
+  triggerSearchInput();
+}
+
+// Run script
+init();
