@@ -283,6 +283,11 @@ select.form-input {
 }
 
 @media (max-width: 600px) {
+
+    .add-exam-page{
+        margin-bottom: 200px;
+    }
+    
     .form-row {
         flex-direction: column;
         gap: 16px;

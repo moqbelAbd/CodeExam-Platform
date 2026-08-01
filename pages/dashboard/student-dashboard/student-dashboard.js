@@ -101,8 +101,7 @@ function createHistoryRow(attempt) {
     <tr>
       <td class="title-data">${attempt.examTitle ?? "_"}</td>
       <td>${attempt.questions?.length ?? 0}</td>
-      <td>${totalGrade}</td>
-      <td>${attempt.grade ?? "_"}</td>
+      <td>${attempt.grade ?? "_"} / ${totalGrade}</td>
       <td><span class="result-status ${statusClass}">${statusText}</span></td>
       <td>
         <button class="review-btn btn" data-action="review" data-id="${attempt.attemptId ?? ""}">
@@ -137,7 +136,7 @@ function renderTableData() {
       (exam) =>
         exam.status !== ExamStatus.INACTIVE &&
         !userAttemptIds.has(exam.examId) &&
-        exam.title.toLowerCase().startsWith(query)
+        exam.title.toLowerCase().includes(query)
     );
 
     tbody.innerHTML = filteredExams.map(createAvailableExamRow).join("");
@@ -146,7 +145,7 @@ function renderTableData() {
     if (!tbody) return;
 
     const filteredAttempts = userAttempts.filter((attempt) =>
-      attempt.examTitle?.toLowerCase().startsWith(query)
+      attempt.examTitle?.toLowerCase().includes(query)
     );
 
     tbody.innerHTML = filteredAttempts.map(createHistoryRow).join("");

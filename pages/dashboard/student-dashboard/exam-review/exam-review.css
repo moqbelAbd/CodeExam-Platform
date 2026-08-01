@@ -249,6 +249,13 @@
 }
 
 
+@media (max-width: 768px ) {
+
+    .exam-review-page {
+    padding: 32px 24px 180px;  
+}
+
+}
 /* -----------------------------------
    Exam Review Page: Dark Mode Styles
 ------------------------------------ */

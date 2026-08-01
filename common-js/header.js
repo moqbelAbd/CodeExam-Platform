@@ -60,10 +60,15 @@ export function loadHeader() {
 
     if (isSignedIn) {
         
-        if(role == UserRole.TEACHER) dashboardLink = `<a href="${pages.teacherDashboard}">Dashboard</a>`;
-        else dashboardLink = `<a href="${pages.studentDashboard}">Dashboard</a>`;
+        if(role == UserRole.TEACHER) {
+            dashboardLink = `<li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.teacherDashboard}">Dashboard</a></li>`;
+        } else {
+            dashboardLink = `<li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.studentDashboard}">Dashboard</a></li>`;
+        }
 
-        profileLink = `<a href="#" id="profile-btn">Profile</a>`;
+        // Added the <li> wrapper and nav-link class to the Profile link
+        profileLink = `<li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="#" id="profile-btn">Profile</a></li>`;
+
         authButton = `
             <button class="logout-btn" id="logout-btn">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
@@ -71,7 +76,7 @@ export function loadHeader() {
         `;
     } else {
         if (!path.includes("signIn.html")) {
-            authButton = `<a href="${pages.login}" class="btn btn-primary btn-signup ms-lg-3">Sign In</a>`;
+            authButton = `<a href="${pages.login}" class="btn primary-btn btn-signup ms-lg-3">Sign In</a>`;
         } else {
             authButton = ""; // Leave it empty on the login page
         }
@@ -94,15 +99,16 @@ header.innerHTML = `
                 <!-- Collapsible Content -->
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <!-- Added align-items-center and text-center for mobile layout -->
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center text-center w-100 justify-content-end">
-                        <li class="nav-item w-100"><a class="nav-link" href="${pages.home}">Home</a></li>
-                        <li class="nav-item w-100"><a class="nav-link" href="${pages.home}#about-section">About</a></li>
-                        <li class="nav-item w-100"><a class="nav-link" href="${pages.home}#contact-section">Contact</a></li>
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center text-center justify-content-center gap-2 gap-lg-4">
+                        <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}">Home</a></li>
+                        <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}#contact-section">Contact</a></li>
+                        <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}#about-section">About</a></li>
                         ${dashboardLink}
                         ${profileLink}
-                        
+                        </ul>
+                        <ul class="navbar-nav mb-2 mb-lg-0 align-items-center text-center justify-content-end justify-self-end">
                         <!-- Auth & Theme Buttons (Added justify-content-center) -->
-                        <li class="nav-item d-flex justify-content-center align-items-center gap-3 mt-3 mt-lg-0 w-100">
+                        <li class="nav-item d-flex justify-content-end align-items-center gap-3 mt-3 mt-lg-0 w-100 w-lg-auto">
                             <button id="theme-toggle-btn" class="nav-link" style="background: none; border: none; cursor: pointer;">
                                 <i id="theme-icon" class="fa-solid fa-moon"></i>
                             </button>
