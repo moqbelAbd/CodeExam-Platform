@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Strictly enforce the 12-word maximum constraint
             const wordCount = data.quote.split(' ').length;
             
-            if (wordCount <= 12) {
+            if (wordCount <= 15) {
                 quoteText.textContent = `"${data.quote}"`;
                 quoteAuthor.textContent = `— ${data.author}`;
             } else {
