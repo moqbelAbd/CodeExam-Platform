@@ -141,6 +141,14 @@ body{
     color: var(--danger);
 }
 
+#theme-toggle-btn{
+    color: var(--text-primary);
+}
+
+#theme-toggle-btn:hover{
+    color: var(--text-secondary);
+}
+
 
 @media (max-width: 548px) {
 
@@ -148,6 +156,7 @@ body{
          gap: 3px;
          padding: 8px 8px;
          font-size: 12px;
+         
     }
 
     .navbar-toggler{
