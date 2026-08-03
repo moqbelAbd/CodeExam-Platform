@@ -206,13 +206,13 @@ td .attempt_btn:hover {
 td .result-status.pass {
     border: 1px solid var(--success);
     background-color: var(--success-light);
-    color: var(--success);
+    color: rgb(34, 207, 97);
 }
 
 td .result-status.fail {
     border: 1px solid var(--danger);
     background-color: var(--danger-light); /* Fixed from light green to danger-light */
-    color: var(--danger);
+    color: #f34848;
 }
 
 td .review-btn {
