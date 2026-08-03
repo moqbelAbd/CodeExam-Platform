@@ -29,6 +29,7 @@ signInBtn.addEventListener("click", (e) => {
 export function login(username, password) {
     const users = getUsers();
     const user = users.find(u => u.username === username && u.password === password);
+    const errorBanner = document.getElementById("login-error-message"); 
 
     if (user) {
         const sessionData = {
@@ -53,10 +54,17 @@ export function login(username, password) {
             window.location.href = pages.studentDashboard; 
         }
         return true;
+
+        
     }
     
   else {
+    if (usernameInput.value != "" && passwordInput.value != "") {
         console.log("Invalid username or password");
+        const toastElement = document.getElementById("errorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();   
+        }
     }
 }
 

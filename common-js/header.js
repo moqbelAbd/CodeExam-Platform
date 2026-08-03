@@ -83,41 +83,40 @@ export function loadHeader() {
         }
 
 header.innerHTML = `
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <!-- Logo -->
-                <a href="${pages.home}" class="navbar-brand logo d-flex align-items-center gap-2">
-                    <img src="/assets/codeExam Logo.png" height="36" width="36" alt="Logo">
-                    <span>CodeExam</span>
-                </a>
+       <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        
+        <!-- 1. Logo  -->
+        <a href="${pages.home}" class="navbar-brand logo d-flex align-items-center gap-2 order-1">
+            <img src="/assets/codeExam Logo.png" height="36" width="36" alt="Logo">
+            <span>CodeExam</span>
+        </a>
 
-                <!-- Burger Menu Button -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <!-- 2. Burger Menu  -->
+<button class="navbar-toggler d-lg-none position-absolute top-50 start-50 translate-middle z-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <!-- Collapsible Content -->
-                <div class="collapse navbar-collapse" id="navbarContent">
-                    <!-- Added align-items-center and text-center for mobile layout -->
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center text-center justify-content-center gap-2 gap-lg-4">
-                        <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}">Home</a></li>
-                        <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}#contact-section">Contact</a></li>
-                        <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}#about-section">About</a></li>
-                        ${dashboardLink}
-                        ${profileLink}
-                        </ul>
-                        <ul class="navbar-nav mb-2 mb-lg-0 align-items-center text-center justify-content-end justify-self-end">
-                        <!-- Auth & Theme Buttons (Added justify-content-center) -->
-                        <li class="nav-item d-flex justify-content-end align-items-center gap-3 mt-3 mt-lg-0 w-100 w-lg-auto">
-                            <button id="theme-toggle-btn" class="nav-link" style="background: none; border: none; cursor: pointer;">
-                                <i id="theme-icon" class="fa-solid fa-moon"></i>
-                            </button>
-                            ${authButton}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <!-- 3. Action Buttons  -->
+        <div class="d-flex align-items-center gap-3 ms-auto order-3 order-lg-3">
+            <button id="theme-toggle-btn" class="nav-link p-0" style="background: none; border: none; cursor: pointer;">
+                <i id="theme-icon" class="fa-solid fa-moon"></i>
+            </button>
+            ${authButton}
+        </div>
+
+        <!-- 4. Collapsible Navigation Links  -->
+        <div class="collapse navbar-collapse order-4 order-lg-2" id="navbarContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center text-center gap-2 gap-lg-4 mt-3 mt-lg-0">
+                <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}">Home</a></li>
+                <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}#contact-section">Contact</a></li>
+                <li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${pages.home}#about-section">About</a></li>
+                ${dashboardLink}
+                ${profileLink}
+            </ul>
+        </div>
+
+    </div>
+</nav>
     `;
 
 

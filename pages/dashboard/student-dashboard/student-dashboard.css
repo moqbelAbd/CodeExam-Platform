@@ -30,6 +30,7 @@ h1 + p {
     background-color: var(--card-background); /* No longer hardcoded white */
     border: 1px solid var(--border);
     border-radius: 0.375rem;
+    align-items: center;
 }
 
 .icon-bg {
