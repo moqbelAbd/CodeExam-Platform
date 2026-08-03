@@ -28,6 +28,8 @@ h1 + p{
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: calc(0.25rem * 4);
     margin-bottom: 1.25rem;
+    justify-content: center;
+    
 }
 
 .card{
