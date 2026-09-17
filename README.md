@@ -4,6 +4,14 @@ A simple web-based **Student Exam & Grade Tracking System** designed for coding 
 
 The system allows teachers to manage students and exams, while students can take active exams, receive grades, and review their answers.
 
+# System Demo: 
+https://grand-platypus-3c5ecb.netlify.app/pages/homepage/homepage.html
+To try the system 
+Teacher account:
+UserName :teacher123 / 
+User account: UserName:student123
+password: 123
+
 > **Project Type:** Front-End Web Application  
 > **Purpose:** Educational / Academic Project  
 > **Technologies:** HTML5, CSS3, Bootstrap, Vanilla JavaScript  
@@ -153,11 +161,7 @@ Logo
 ├── Contact
 └── Sign In
 
-To try the system 
-Teacher account:
-UserName :teacher123 / 
-User account: UserName:student123
-password: 123
+
 
 
 
