@@ -1,30 +1,163 @@
-FindExperts
-​A professional marketplace connecting people needing assistance with skilled professionals to ask questions, request services, discover job opportunities, and book consultations.
-​✨ Core Features
-​Dual Profiles: Maintain a basic user account for standard activity, or upgrade to an Expert profile to showcase professional fields, certificates, and portfolio projects.
-​Multi-Format Posts: Engage the community through open Questions, request specific Services with a defined budget, or publish Jobs (Full/Part-Time, On-Site/Hybrid/Remote).
-​Expert Bidding: Professionals can directly apply to user requests using "I Can Help" for services or "I'm Suitable" for jobs.
-​Consultation Booking: A robust scheduling system that handles slot availability, prevents overlapping, and manages meeting states (Pending, Accepted, Rejected, Cancelled, Completed) alongside external meeting URLs.
-​Trust & Reputation Engine: Clients provide 1-5 star feedback and grant "Guarantees" after completed interactions to help experts unlock tiered trust badges (Green, Silver, Bronze, Gold).
-​Role-Based Dashboards: Dedicated views for users to track saved experts and posts, and for experts to manage their availability, asynchronous inbox, and incoming requests.
-​🛠️ Tech Stack
-​Frontend: Standard React and Tailwind CSS for a clean, accessible, and responsive user interface (prioritizing 1440px desktop and 375px–430px mobile environments).
-​Backend: ASP.NET Core (C#) and Entity Framework for secure, scalable API endpoints and business logic.
-​Database: SQL Server utilizing strict schema validations and relational integrity.
-​🚦 Local Setup & Installation
-​Clone the repository to your local machine.
-​Navigate to the frontend directory and run npm install to retrieve all UI dependencies.
-​Open the backend solution in your preferred IDE (Visual Studio, JetBrains Rider, or WebStorm/IntelliJ environments).
-​Update the appsettings.json connection string to point to your local SQL Server instance (e.g., .\SQLEXPRESS or (localdb)\MSSQLLocalDB).
-​Execute Update-Database in the Package Manager Console (or dotnet ef database update) to apply migrations and generate the required tables.
-​🔒 Governance & Business Rules
-​Access Control: Tiered permissions range from view-only Guests, to Registered Users, to fully privileged Admins handling platform moderation.
-​Identity Limits: Users are limited to a single, consolidated expert identity to maintain marketplace integrity.
-​Interaction Gates: Reviews and reputation guarantees are strictly locked until a booked interaction is officially marked as Completed.
-​Time Validation: Booking requests strictly evaluate the exact date and time of day to ensure users cannot reserve expired slots.
+# 🎓 Student Exam & Grade Tracking System
+
+A simple web-based **Student Exam & Grade Tracking System** designed for coding and logic examinations.
+
+The system allows teachers to manage students and exams, while students can take active exams, receive grades, and review their answers.
+
+> **Project Type:** Front-End Web Application  
+> **Purpose:** Educational / Academic Project  
+> **Technologies:** HTML5, CSS3, Bootstrap, Vanilla JavaScript  
+> **Data Storage:** LocalStorage & SessionStorage  
+> **Backend:** Simulated using Browser Storage
+
+---
+
+# 📌 Project Overview
+
+The Student Exam & Grade Tracking System provides two different user roles:
+
+- 👨‍🏫 **Teacher**
+- 👨‍🎓 **Student**
+
+Each role has its own dashboard and permissions.
+
+# Teacher
+
+The teacher can:
+
+- Add students
+- View all students
+- Search students
+- Delete students
+- Create exams
+- Add questions
+- Activate / deactivate exams
+- View student attempts
+- View student grades and attempt timestamps
+
+ # Student
+
+The student can:
+
+- Login using an account created by the teacher
+- View active exams
+- Attempt an exam once
+- View exam results
+- View exam history
+- Review previous attempts
+- View their profile
+
+---
+
+ # 🎯 Project Goals
+
+The main goal of the project is to practice:
+
+- Building a complete responsive website
+- HTML5 page structure
+- CSS3 styling
+- Bootstrap layout and components
+- Vanilla JavaScript
+- DOM manipulation
+- Form validation
+- LocalStorage
+- SessionStorage
+- Authentication
+- Role-Based Access Control (RBAC)
+- Dynamic exam creation
+- Dynamic question rendering
+- Grade calculation
+- Managing application state
+
+---
+
+ # 🛠 Technologies
+
+The project is built using:
+
+ Front-End
+
+- HTML5
+- CSS3
+- Bootstrap
+- Vanilla JavaScript
+
+ Storage
+
+- localStorage
+- sessionStorage
+
+
+
+---
+
+#  🎨 UI / UX Design
+
+The interface is intentionally designed to be:
+
+- Simple
+- Clean
+- Professional
+- Educational
+- Coding-oriented
+- Easy to navigate
+- Responsive
+
+The design is inspired by the general feel of:
+
+- Coding platforms
+- University systems
+- Developer tools
+- Learning management systems
+
+#  Design System 
+
+---
+
+ 🎨 Color System
+
+The main color palette is:
+
+| Purpose | Color |
+|---|---|
+| Primary | `#2563EB` |
+| Primary Hover | `#1D4ED8` |
+| Primary 🎓 St | `#DBEAFE` |
+| Secondary | `#0F172A` |
+| Secondary Light | `#334155` |
+| Success | `#16A34A` |
+| Success Light | `#DCFCE7` |
+| Danger | `#DC2626` |
+| Danger Light | `#FEE2E2` |
+| Warning | `#F59E0B` |
+| Info | `#0EA5E9` |
+| Background | `#F8FAFC` |
+| Card Background | `#FFFFFF` |
+| Text Primary | `#0F172A` |
+| Text Secondary | `#475569` |
+| Border | `#CBD5E1` |
+
+---
+
+ # 🧭 Website Navigation
+
+The header is shared across the website.
+
+ Guest Navigation
+
+text
+Logo
+│
+├── Home
+├── About
+├── Contact
+└── Sign In
 
 To try the system 
-Teacher account: UserName :teacher123 /  Teacher account: UserName :student123.....password: 123
+Teacher account:
+UserName :teacher123 / 
+User account: UserName:student123
+password: 123
 
 
 
